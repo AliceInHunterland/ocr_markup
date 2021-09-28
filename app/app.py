@@ -41,7 +41,7 @@ async def image(image: UploadFile = File(...), json_boxes : str = """{"name": 		
             print(key)
             
             print(u"Box[{0}]: x={x}, y={y}, w={w}, h={h}, "
-                  "confidence: {1}, text: {2}".format(i, conf, ocrResult, **box))
+                  "confidence: {1}, text: {2}".format(key, conf, ocrResult, **box))
             results[key] = ocrResult
 
     return results
