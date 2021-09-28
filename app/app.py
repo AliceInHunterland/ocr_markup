@@ -39,6 +39,6 @@ async def image(image: UploadFile = File(...), json : str = "{'name':[x,y,w,h]}"
                   "confidence: {1}, text: {2}".format(i, conf, ocrResult, **box))
         
         
-   file = jsonable_encoder({"imagePath":file_name})
-   new_image = await add_image(file)
-   return {"filename": new_image}
+    file = jsonable_encoder({"imagePath":file_name})
+    new_image = await add_image(file)
+    return {"filename": new_image}
