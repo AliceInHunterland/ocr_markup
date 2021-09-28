@@ -11,7 +11,7 @@ app = FastAPI()
 
 
 @app.post("/get_ocr")
-async def image(image: UploadFile = File(...), json_boxes : str = """[{"name": 		{"x":0,"y":0,"w":300,"h":300} } ]"""):
+async def image(image: UploadFile = File(...), json_boxes : str = """{"name": 		{"x":0,"y":0,"w":300,"h":300} }"""):
     print(image.file, json_boxes)
     
     try:
