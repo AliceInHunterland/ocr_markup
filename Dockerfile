@@ -18,19 +18,22 @@ RUN wget https://github.com/tesseract-ocr/tessdata/archive/4.00.tar.gz -O /tmp/t
 RUN tar -xvf /tmp/tessdata.tgz --directory /tmp
 WORKDIR /tmp
 RUN  mkdir -p /usr/local/share/tessdata/ &&  rsync -a tessdata-4.00/ /usr/local/share/tessdata
-RUN mkdir /tmp/tesserocr
+WORKDIR /tmp/
 
-ADD setup.py README.rst tesseract.pxd tesserocr_experiment.pyx tesserocr.pyx tests/ tox.ini /tmp/tesserocr/
+RUN git clone --recursive https://github.com/sirfz/tesserocr
 
 WORKDIR /tmp/tesserocr
 RUN python setup.py bdist_wheel
 RUN python setup.py install
 
+RUN pip install --upgrade pip && pip install numpy Pillow opencv-python
 
-RUN pip install numpy Pillow opencv-python
+RUN pip install fastapi uvicorn python-multipart
 
-RUN pip install fastapi
+RUN mkdir /service
+WORKDIR  /service
 
-COPY ./app.py /app
+#RUN git clone --recursive https://github.com/OlegJakushkin/ocr_markup
+#WORKDIR ./ocr_markup
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD git clone --recursive https://github.com/OlegJakushkin/ocr_markup && cd ./ocr_markup && uvicorn app.app:app --host 0.0.0.0 --port 80
