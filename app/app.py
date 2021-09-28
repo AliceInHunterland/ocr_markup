@@ -1,5 +1,6 @@
 #/usr/bin/python
 import os
+import json
 from fastapi import FastAPI, File, UploadFile
 from PIL import Image
 from tesserocr import PyTessBaseAPI, RIL
