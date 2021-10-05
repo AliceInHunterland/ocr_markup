@@ -49,7 +49,7 @@ async def image(image: UploadFile = File(...), json_boxes : str = """{"name": 		
         for key, box in  boxes.items():
             # im is a PIL image object
             # box is a dict with x, y, w and h keys
-            api.SetRectangle(box['x'], box['y'], box['w'], box['h'])
+            api.SetRectangle(box['x']*scale_factor, box['y']*scale_factor, box['w']*scale_factor, box['h']*scale_factor)
             ocrResult = api.GetUTF8Text()
             conf = api.MeanTextConf()
             print(key)
