@@ -30,7 +30,7 @@ async def image(image: UploadFile = File(...), json_boxes : str = """{"name": 		
     (width, height) = (image.width * scale_factor, image.height * scale_factor)
     image = image.resize((width, height))
     
-    image = image.convert('gray').convert('RGB')
+    image = image.convert('L').convert('RGB')
     
     enhancer = ImageEnhance.Contrast(image)
     factor_contrast = 1.5
