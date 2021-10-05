@@ -2,7 +2,7 @@
 import os
 import json
 from fastapi import FastAPI, File, UploadFile
-from PIL import Image
+from PIL import Image, ImageEnhance
 from tesserocr import PyTessBaseAPI, RIL
 
 
@@ -25,7 +25,21 @@ async def image(image: UploadFile = File(...), json_boxes : str = """{"name": 		
         f.close()
     
     results = {}
+    scale_factor = 2
     image = Image.open(file_name) #TODO: remove store to FS!!!
+    (width, height) = (image.width * scale_factor, image.height * scale_factor)
+    image = image.resize((width, height))
+    
+    image = image.convert('gray')
+    
+    enhancer = ImageEnhance.Contrast(image)
+    factor_contrast = 1.5
+    image = enhancer.enhance(factor_contrast)
+    
+    enhancer = ImageEnhance.Brightness(image)
+    factor_brightness = 0.6 #darkens the image
+    image = enhancer.enhance(factor_brightness)
+    
     with PyTessBaseAPI() as api:
         api.SetImage(image)
         #boxes = api.GetComponentImages(RIL.TEXTLINE, True)
