@@ -39,7 +39,8 @@ async def image(image: UploadFile = File(...), json_boxes : str = """{"name": 		
     enhancer = ImageEnhance.Brightness(image)
     factor_brightness = 0.6 #darkens the image
     image = enhancer.enhance(factor_brightness)
-    
+    json_boxes["name"]["w"] = width
+    json_boxes["name"]["h"] = height
     with PyTessBaseAPI() as api:
         api.SetImage(image)
         #boxes = api.GetComponentImages(RIL.TEXTLINE, True)
